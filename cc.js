@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         Stock Level Check for Canada Computers Website Ver 0.2
-// @version      0.2
+// @name         Stock Level Check for Canada Computers Website
+// @version      1.0
 // @description  Stock Level Check for Canada Computers Website
 // @author       Yunpeng
 // @match        https://www.canadacomputers.com/index.php?cPath=*
-// @match      https://www.canadacomputers.com/search/results_details.php?*
-// @match      https://www.canadacomputers.com/clearance.php*
+// @match        https://www.canadacomputers.com/search/results_details.php?*
+// @match        https://www.canadacomputers.com/clearance.php*
 
 // ==/UserScript==
 
@@ -41,6 +41,15 @@
                 insertDivs[index].innerHTML += container.innerHTML
             }
         });
+
+        // Show Coupon Real Code after Coupon Image
+        var couponEle = document.querySelectorAll("div[data-ccode]")
+        couponEle.forEach(element => {
+            if (!element.innerHTML.includes("font-weight")) {
+                element.innerHTML += `<div style="margin-top:12px; margin-bottom:12px; padding:4px; font-size:18px; font-weight:600; border:2px solid #000;">${element.dataset.ccode}</div>`
+            }
+        });
+
     }
 
     // When page load or scroll mouse, run target function.
