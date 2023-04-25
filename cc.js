@@ -1,60 +1,56 @@
 // ==UserScript==
-// @name         Stock Level Check for Canada Computers Website
-// @namespace    None
-// @version      1.1.1
+// @name         Stock Level Check for Canada Computers Website Ver 0.2
+// @version      0.2
 // @description  Stock Level Check for Canada Computers Website
 // @author       Yunpeng
 // @match        https://www.canadacomputers.com/index.php?cPath=*
-// @include      https://www.canadacomputers.com/search/results_details.php?*
-// @include      https://www.canadacomputers.com/listing/*
-// @grant        none
+// @match      https://www.canadacomputers.com/search/results_details.php?*
 // ==/UserScript==
 
-// Default StoreName
-// West Island
-// Modify quebec_stores_list selector to change province
-// Modify storeName and num selector to change store
-
 (function () {
-  window.addEventListener("load", getStockLevel);
-  window.addEventListener("scroll", getStockLevel);
+    function getStockLevel() {
+        // Find All Items Stock Level Elements
+        var stockList = document.querySelectorAll("#product-list .stocklevel-pop")
+        // Loop Each Item
+        stockList.forEach((element, index) => {
+            // Create Empty Container
+            var container = document.createElement('div')
+            container.innerHTML = ''
+            var allStoreStockLevel = element.querySelectorAll(".item__avail__num")
+            // Filter QC Stock Level (exclude Gatineau and Vanier)
+            allStoreStockLevel.forEach(ele => {
+                if (ele.className.includes("QC") && !ele.innerHTML.includes("Gatineau") && !ele.innerHTML.includes("Vanier")) {
+                    container.innerHTML += ele.innerHTML
+                }
+            });
+            // Shorten Store Name
+            container.innerHTML = container.innerHTML.replace(/Marché Central/g, "MC")
+            container.innerHTML = container.innerHTML.replace(/West Island/g, "WI")
+            container.innerHTML = container.innerHTML.replace(/Montréal Downtown/g, "MTL")
 
-  function getStockLevel() {
-    var str = "";
-    var stocklevel_all = document.querySelectorAll(".stocklevel-pop");
-
-    for (var i = 0; i <= stocklevel_all.length; i++) {
-      var quebec_stores_list = stocklevel_all[i].querySelector(
-        ".row:nth-child(5)"
-      );
-      var storeName = quebec_stores_list.querySelector(
-        ".col-md-4:nth-child(7) .col-9 p a"
-      ).innerText;
-      var num = quebec_stores_list.querySelector(
-        ".col-md-4:nth-child(7) .col-3 p span"
-      ).innerText;
-      // add style
-      num = num != "-" ? num : "0";
-      if (num != "0") {
-        str =
-          '<span style="background-color:#CCCCCC;">' +
-          storeName +
-          ": " +
-          num +
-          "</span>";
-      } else {
-        str =
-          '<span style="background-color:#FF0000;">' +
-          storeName +
-          ": " +
-          0 +
-          "</span>";
-      }
-      // insert to content
-      var insertDiv = document.querySelectorAll("a[data-stocklevel-pop-id]");
-      if (insertDiv[i].innerHTML.indexOf("span") == -1) {
-        insertDiv[i].innerHTML = str + insertDiv[i].innerHTML;
-      }
+            // Find All Insert Divs
+            var insertDivs = document.querySelectorAll(
+                "a[data-stocklevel-pop-id]"
+            );
+            // Change Style add Margin-top
+            insertDivs[index].innerHTML = "<div style='margin-top:12px;'></div>"
+            // Prevent Infinite Loop Add Text
+            if (!insertDivs[index].innerHTML.includes("stocknumber")) {
+                insertDivs[index].innerHTML += container.innerHTML
+            }
+        });
     }
-  }
+
+    // When page load or scroll mouse, run target function.
+    window.addEventListener("load", getStockLevel);
+    window.addEventListener("scroll", getStockLevel);
+
+    // When page send ajax request, run target function
+    // (function (open) {
+    //     XMLHttpRequest.prototype.open = function () {
+    //         this.addEventListener("readystatechange", getStockLevel);
+    //         open.apply(this, arguments);
+    //     };
+    // })(XMLHttpRequest.prototype.open);
+
 })();
