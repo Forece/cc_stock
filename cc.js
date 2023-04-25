@@ -5,6 +5,8 @@
 // @author       Yunpeng
 // @match        https://www.canadacomputers.com/index.php?cPath=*
 // @match      https://www.canadacomputers.com/search/results_details.php?*
+// @match      https://www.canadacomputers.com/clearance.php*
+
 // ==/UserScript==
 
 (function () {
