@@ -9,3 +9,6 @@ It will show items discrepancies when Bin Qty not match OH Qty
 
 ## skid.js
 It will show items discrepancies when TRF Qty not match Confirm Qty
+
+## bundle.js
+It will show bundle item link on product page
