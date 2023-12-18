@@ -14,12 +14,12 @@
         var bundleList = document.querySelectorAll(".bundlebtn")
         // console.log(bundleList)
         bundleList.forEach(ele => {
-            // console.log(ele)
-            var bundleLink = `<a href="https://www.canadacomputers.com/product_info.php?cPath=&item_id=${ele.dataset.bundlepid}" class="btn btn-primary cart bundlebtn">Bundle Link</a>`
-            console.log(ele)
+            if (ele.dataset.bundlepid){
+                var bundleLink = `<a href="https://www.canadacomputers.com/product_info.php?cPath=&item_id=${ele.dataset.bundlepid}" class="btn btn-primary cart bundlebtn">Bundle Link</a>`
+            } else {
+                var bundleLink = `<a href="javascript:;" class="btn btn-primary cart bundlebtn">Auto Dedect Bundle</a>`
+            }
             ele.outerHTML += bundleLink
-            console.log(ele.outerHTML)
-
         })
     }
 
