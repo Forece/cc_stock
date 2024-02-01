@@ -12,17 +12,21 @@
 (function() {
     function getBundleList(){
         var bundleList = document.querySelectorAll(".bundlebtn")
+        // console.log(bundleList)
         bundleList.forEach(ele => {
-            var bundleLink = `<a href="https://www.canadacomputers.com/product_info.php?cPath=&item_id=${ele.dataset.bundlepid}" class="btn btn-primary cart bundlebtn">Bundle Link</a>`
+            if (ele.dataset.bundlepid){
+                var bundleLink = `<a href="https://www.canadacomputers.com/product_info.php?cPath=&item_id=${ele.dataset.bundlepid}" class="btn btn-primary cart bundlebtn">Bundle Link</a>`
+            } else {
+                var bundleLink = `<a href="javascript:;" class="btn btn-primary cart bundlebtn">Auto Dedect Bundle</a>`
+            }
             ele.outerHTML += bundleLink
-
         })
     }
 
     function getCoupon(){
         var couponEle = document.querySelector("#coupondata")
-        var bundleCode = `<div style="margin-top:12px; margin-bottom:12px; padding:4px; font-size:18px; font-weight:600; border:2px solid red;">Coupon Code: ${couponEle.dataset.coupcode}</div>`
-        couponEle.outerHTML = bundleCode;
+        var couponCode = `<div style="margin-top:12px; margin-bottom:12px; padding:4px; font-size:18px; font-weight:600; border:2px solid red;">Coupon Code: ${couponEle.dataset.coupcode}</div>`
+        couponEle.outerHTML = couponCode;
     }
 
     // window.addEventListener("load", getBundleList);
