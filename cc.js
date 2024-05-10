@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Stock Level Check for Canada Computers Website
-// @version      1.0
+// @version      1.1
 // @description  Stock Level Check for Canada Computers Website
 // @author       Yunpeng
 // @match        https://www.canadacomputers.com/index.php?cPath=*
 // @match        https://www.canadacomputers.com/search/results_details.php?*
 // @match        https://www.canadacomputers.com/clearance.php*
+// @match        https://www.canadacomputers.com/index.php?sort=*
 
 // ==/UserScript==
 
@@ -32,12 +33,12 @@
 
             // Find All Insert Divs
             var insertDivs = document.querySelectorAll(
-                "a[data-stocklevel-pop-id]"
+                ".addCartSearch"
             );
-            // Change Style add Margin-top
-            insertDivs[index].innerHTML = "<div style='margin-top:12px;'></div>"
             // Prevent Infinite Loop Add Text
             if (!insertDivs[index].innerHTML.includes("stocknumber")) {
+                // Change Style add Margin-top
+                insertDivs[index].innerHTML = insertDivs[index].innerHTML + "<div style='margin-top:12px;'></div>"
                 insertDivs[index].innerHTML += container.innerHTML
             }
         });
